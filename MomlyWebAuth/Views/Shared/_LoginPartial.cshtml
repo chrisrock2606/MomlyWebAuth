@@ -1,0 +1,26 @@
+@using Microsoft.AspNetCore.Identity
+@using MomlyWebAuth.Models
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
+        <ul class="nav navbar-nav">
+            <li>
+                <a class="nav-link" asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">Hej @UserManager.GetUserName(User)!</a>
+            </li>
+            <li>
+                <button type="submit" class="btn btn-link navbar-btn nav-link">Log ud</button>
+            </li>
+        </ul>
+    </form>
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li><a class="nav-link" asp-area="" asp-controller="Account" asp-action="Register">Tilmeld</a></li>
+        <li><a class="nav-link" asp-area="" asp-controller="Account" asp-action="Login">Log ind</a></li>
+    </ul>
+}

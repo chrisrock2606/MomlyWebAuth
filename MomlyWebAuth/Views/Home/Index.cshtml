@@ -1,0 +1,103 @@
+﻿@model IEnumerable<MomlyWebAuth.Models.MomlyFriend>
+
+<!DOCTYPE html>
+
+<!-- Cover -->
+<div class="pt-5" id="top" style="background-image: url('/img/WebBackground.png');">
+    <div class="container mt-5 pt-5">
+        <div class="row">
+            <div class="col-md-6 my-5 text-lg-left text-center align-self-center">
+                <h3 class="display-2">Momly</h3>
+                <p class="lead">Undgå overvægt i forbindelse med din graviditet</p>
+                <div class="row mt-5">
+                    <div class="col-6 col-lg-5">
+                        <a href="#">
+                            <img class="center-block img-fluid" src="~/img/app_store_img.png">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <img class="img-fluid d-block mx-auto" src="~/img/MomlySplash1_galaxys4_white_portrait.png" width="250">
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Article style section -->
+<div class="py-5" id="features" style="background-image: url('/img/WebBackground2.png');">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5 order-2 order-md-1">
+                <img class="img-fluid d-block my-3 mx-auto animate-in-left" src="~/img/MomlySplash1_iphone6plus_gold_side1.png" width="200">
+            </div>
+            <div class="col-md-7 align-self-center order-1 order-md-2 my-3 text-md-left text-center">
+                <h2>Hold din vægt før og efter graviditeten</h2>
+                <p class="my-4 text-muted">
+                    Momly hjælper dig til at tabe dig uden løftede pegefingre.
+                    <br>Få gode råd til amning og god viden om din kost.
+                    <br>
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="align-self-center col-lg-7 text-md-left text-center">
+                <h2>Find andre som dig</h2>
+                <p class="my-4 text-muted">Med Momly kan du finde andre kommende eller nuværende mødre. Momly gør det nemt at mødes til sunde aktiviteter.</p>
+            </div>
+            <div class="align-self-center mt-5 col-lg-5">
+                <img class="img-fluid d-block animate-in-right mx-auto" src="~/img/Screenshot_20180529-124312[1]_samsung-galaxysduos-portrait.png" width="300">
+            </div>
+        </div>
+        <hr class="mt-0">
+    </div>
+</div>
+<!-- Map section -->
+<div class="py-5" style="background-image: url('/img/WebBackground3.png');">
+    <div class="container">
+        <div class="row py-5">
+            <div class="col-md-8 animate-in-left" id="map">
+            </div>
+            <div class="col-md-4">
+                <div class="list-group animate-in-right">
+                    @foreach (var item in Model)
+                    {
+                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">@Html.DisplayFor(modelItem => item.UserName)</h5>
+                            </div>
+                            <p class="mb-1">@Html.DisplayFor(modelItem => item.Age)</p>
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var moms = @Html.Raw(ViewBag.Markers);
+
+    function initMap() {
+        var centerPos = moms[0];
+        var uluru = { lat: centerPos[1], lng: centerPos[2] };
+        var map = new google.maps.Map(document.getElementById('map'), { zoom: 12, center: uluru });
+
+        setMarkers(map);
+    }
+
+    function setMarkers(map) {
+                    for (var i = 0; i < moms.length; i++) {
+                var mom = moms[i];
+                var marker = new google.maps.Marker({
+                position: { lat: mom[1], lng: mom[2] },
+                map: map,
+                title: mom[0],
+                zIndex: mom[3]
+                });
+        }
+    }
+</script>
+
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBfwao_3GBNvlZ8H1HzdPlzqjukmeN77Pg&callback=initMap">
+</script>
+<!-- Map section -->

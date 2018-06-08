@@ -1,0 +1,57 @@
+﻿@model IEnumerable<MomlyWebAuth.Models.MomlyFriend>
+
+<div class="align-items-center d-flex py-5 cover" style="background-image: url('/img/WebBackground.png');">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 animate-in-left" id="map" style="height:800px; width:100%">
+            </div>
+            <div class="col-md-4 list-group animate-in-left">
+                @foreach (var item in Model)
+                {
+                    <a class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">@Html.DisplayFor(modelItem => item.UserName)</h5>
+                        </div>
+                        <p class="mb-1">@Html.DisplayFor(modelItem => item.Age)</p>
+                    </a>
+                }
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 text-md-right text-dark">
+                <br>
+                <h2>Find aktive mødre</h2>
+                <p class="text-dark">
+                    Kortet viser mødre der hurtigt og nemt har oprettet ture på Momly og søger andre til en gåtur
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var moms = @Html.Raw(ViewBag.Markers);
+
+    function initMap() {
+        var centerPos = moms[0];
+        var uluru = { lat: centerPos[1], lng: centerPos[2] };
+        var map = new google.maps.Map(document.getElementById('map'), { zoom: 12, center: uluru });
+
+        setMarkers(map);
+    }
+
+    function setMarkers(map) {
+                    for (var i = 0; i < moms.length; i++) {
+                var mom = moms[i];
+                var marker = new google.maps.Marker({
+                position: { lat: mom[1], lng: mom[2] },
+                map: map,
+                title: mom[0],
+                zIndex: mom[3]
+                });
+        }
+    }
+</script>
+
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBfwao_3GBNvlZ8H1HzdPlzqjukmeN77Pg&callback=initMap">
+</script>
